@@ -27,19 +27,21 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => _countCubit,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        onGenerateRoute: _appRouter.onGenRoute,
       ),
-      onGenerateRoute: _appRouter.onGenRoute,
     );
-
   }
 
   @override
   void dispose() {
-    _appRouter.dispose();
+    _countCubit.close();
     super.dispose();
   }
 }

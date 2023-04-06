@@ -1,50 +1,18 @@
-import 'dart:developer';
-import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:bloc_flutter_studies/business_logic/cubits/count_cubit.dart';
+import 'package:bloc_flutter_studies/presentation/screens/second_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  final CountState countState1 = CountState(counterValue: 1);
-  final CountState countState2 = CountState(counterValue: 1);
-
-  print(countState1 == countState2);
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<CountCubit>(
-      create: (context) => CountCubit(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,12 +29,12 @@ class _MyHomePageState extends State<MyHomePage> {
             BlocConsumer<CountCubit, CountState>(
               listener: (context, state) {
                 if (state.wasIncremented) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Incremented!"),
                     duration: Duration(milliseconds: 500),
                   ));
                 } else if (!state.wasIncremented) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Decremented!"),
                     duration: Duration(milliseconds: 500),
                   ));
@@ -83,21 +51,43 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 FloatingActionButton(
+                  heroTag: Text('${widget.title}'),
                   onPressed: () {
                     BlocProvider.of<CountCubit>(context).decrement();
                     // context.bloc<CounterCubit>().decrement();
                   },
                   tooltip: 'Decrement',
-                  child: Icon(Icons.remove),
+                  child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
+                  heroTag: Text('${widget.title} #2'),
                   onPressed: () {
                     BlocProvider.of<CountCubit>(context).increment();
                   },
                   tooltip: 'Increment',
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ],
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/second');
+              },
+              child: const Text("Press to go onto second page"),
+              color: Theme.of(context).primaryColor,
+            ),
+            SizedBox(
+              height: 24,
+            ),
+            MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/third');
+              },
+              child: const Text("Press to go onto third page"),
+              color: Theme.of(context).primaryColor,
             )
           ],
         ),

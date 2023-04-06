@@ -11,7 +11,7 @@ class AppRouter {
     switch (routeSettings.name) {
       case '/':
         return MaterialPageRoute(
-            builder: (_) => HomeScreen(title: 'Home Screen'));
+            builder: (_) => HomeScreen(title: 'Home Screen', color: Colors.blue,));
         break;
       case '/second':
         return MaterialPageRoute(
